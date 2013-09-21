@@ -1,0 +1,3 @@
+<variable name="B08101_001E" concept="B08101.  MEANS OF TRANSPORTATION TO WORK BY AGE">Total:</variable>
+<variable name="B08101_009E" concept="B08101.  MEANS OF TRANSPORTATION TO WORK BY AGE">Car, truck, or van - drove alone:</variable>
+<variable name="B08101_017E" concept="B08101.  MEANS OF TRANSPORTATION TO WORK BY AGE">Car, truck, or van - carpooled:</variable>
