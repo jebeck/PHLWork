@@ -95,10 +95,6 @@ var loadState = function(state) {
 
 var states = ['DE', 'MD', 'NJ', 'PA'];
 
-for (i = 0; i < states.length; i++) {
-	loadState(states[i]);
-}
-
 // this function mostly taken from Mike Bostock's http://bost.ocks.org/mike/leaflet/ tutorial
 var overlay = function() {
 
@@ -146,6 +142,9 @@ var returnGeoID = function(json) {
 	console.log("returnGeoID" + json.objects[0].metadata.GEOID10);
 	userGeoID = json.objects[0].metadata.GEOID10;
 	userTractData = json.objects[0].simple_shape;
+	for (i = 0; i < states.length; i++) {
+		loadState(states[i]);
+	}
 }
 
 var getCensusTract = function(Lat, Lng) {
