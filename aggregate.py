@@ -30,7 +30,7 @@ def main():
 
 	dmps = json.dumps(homeTracts, sort_keys=True, indent=4, separators=(',', ': '))
 
-	with open('PA-agged-excluded.json', 'w') as f:
+	with open(sys.argv[2] + '-agged-excluded.json', 'w') as f:
 		print >> f, dmps
 
 if __name__ == '__main__':
