@@ -53,8 +53,7 @@ var loadState = function(state) {
 	var fileExt = '-agged-excluded.json';
 	d3.json(state + fileExt, function(json) {
 		// this will be input from search box
-		var tract = ['42101000500'];
-		getTractCentroid(tract);
+		var tract = userGeoID;
 
 		g.selectAll("circle")
 			.data(json[tract].workTracts)
@@ -99,26 +98,6 @@ var states = ['DE', 'MD', 'NJ', 'PA'];
 for (i = 0; i < states.length; i++) {
 	loadState(states[i]);
 }
-
-d3.json('DE-agged-excluded.json', function(json) {
-	// this will be input from search box
-	var tract = ['42101000500'];
-	getTractCentroid(tract);
-
-	console.log(json[tract])
-
-	// d3.selectAll("circle")
-	// 	.data(data[tract])
-	// 	.enter()
-	// 	.append("circle")
-	// 	.attr({
-	// 		"cx": function(d) {
-	// 			for (i = 0; i < d.workTracts.length; i++) {
-
-	// 			}
-	// 		}
-	// 	})
-});
 
 // this function mostly taken from Mike Bostock's http://bost.ocks.org/mike/leaflet/ tutorial
 var overlay = function() {
