@@ -29,43 +29,99 @@ var project = function(x) {
 
 var path = d3.geo.path().projection(project);
 
-var centers = [];
+var svg = d3.select(map.getPanes().overlayPane).append("svg"), 
+	g = svg.append("g").attr("class", "leaflet-zoom-hide");
+
+var centers = new Object();
 
 var returnCentroid = function(json) {
-	centers.push(json.centroid);
+	centers[json.external_id] = json.centroid;
 };
 
 var getTractCentroid = function(tract) {
 	var base_url = "http://census.ire.org/geo/1.0/boundary-set/tracts/";
 
 	url = base_url + tract;
-	$.ajax(url, {
+	return $.ajax(url, {
 		dataType: "jsonp",
-		jsonpCallback: 'returnCentroid'
+		jsonpCallback: 'returnCentroid',
+		async: false
 	});
 };
 
-d3.json('all-states-agged-excluded.json', function(error, json) {
-	var data = json;
+var loadState = function(state) {
+	var fileExt = '-agged-excluded.json';
+	d3.json(state + fileExt, function(json) {
+		// this will be input from search box
+		var tract = ['42101000500'];
+		getTractCentroid(tract);
+
+		g.selectAll("circle")
+			.data(json[tract].workTracts)
+			.enter()
+			.append("circle")
+			.attr({
+				'id': function(d) {
+					return 'w' + d.workTract;
+				},
+				"r": function(d) {
+					var total = 0;
+					if (d.industries['goodsProducing']) {
+						total += d.industries['goodsProducing'];
+					}
+					if (d.industries['transTradeUtil']) {
+						total += d.industries['transTradeUtil'];
+					}
+					if (d.industries['allOther']) {
+						total += d.industries['allOther'];
+					}
+					return 5;
+				},
+				"fill": "blue"
+			});
+
+		var wts = json[tract].workTracts;
+		for(i = 0; i < wts.length; i++) {
+			var promise = getTractCentroid(wts[i].workTract);
+			promise.success(function(data) {
+				coords = project(data['centroid']['coordinates']);
+				d3.select("#w" + data['external_id']).attr({
+					"cx": coords[0],
+					"cy": coords[1]
+				});
+			});
+		}
+	});
+};
+
+var states = ['DE', 'MD', 'NJ', 'PA'];
+
+for (i = 0; i < states.length; i++) {
+	loadState(states[i]);
+}
+
+d3.json('DE-agged-excluded.json', function(json) {
 	// this will be input from search box
 	var tract = ['42101000500'];
 	getTractCentroid(tract);
 
-	d3.selectAll("circle")
-		.data(data[tract])
-		.enter()
-		.append("circle")
-		.attr({
-			"cx": function(d) {
-				console.log(d);
-			}
-		})
+	console.log(json[tract])
+
+	// d3.selectAll("circle")
+	// 	.data(data[tract])
+	// 	.enter()
+	// 	.append("circle")
+	// 	.attr({
+	// 		"cx": function(d) {
+	// 			for (i = 0; i < d.workTracts.length; i++) {
+
+	// 			}
+	// 		}
+	// 	})
 });
 
 // this function mostly taken from Mike Bostock's http://bost.ocks.org/mike/leaflet/ tutorial
 var overlay = function() {
-	var svg = d3.select(map.getPanes().overlayPane).append("svg"), 
-		g = svg.append("g").attr("class", "leaflet-zoom-hide");
 
 	d3.json('counties.json', function(collection) {
 
