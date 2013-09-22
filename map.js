@@ -1,11 +1,12 @@
 var feature;
 
 // Latitude first
-var map = L.map('map').setView([39.95, -75.17], 9);
+var map = L.map('map', {zoomControl: false}).setView([39.95, -75.17], 9);
 
 L.tileLayer('http://tile.stamen.com/toner-lite/{z}/{x}/{y}.jpg', {
 	attribution: '<a id="home-link" target="_top" href="../">Map tiles</a> by <a target="_top" href="http://stamen.com">Stamen Design</a>, under <a target="_top" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>',
-	maxZoom: 18
+	maxZoom: 9,
+	minZoom: 9
 }).addTo(map);
 
 var counties = {
@@ -31,6 +32,10 @@ var path = d3.geo.path().projection(project);
 
 var svg = d3.select(map.getPanes().overlayPane).append("svg"), 
 	g = svg.append("g").attr("class", "leaflet-zoom-hide");
+
+var bounds;
+
+var D3feature;
 
 var centers = new Object();
 
@@ -80,6 +85,7 @@ var loadState = function(state) {
 			});
 
 		var wts = json[tract].workTracts;
+
 		for(i = 0; i < wts.length; i++) {
 			var promise = getTractCentroid(wts[i].workTract);
 			promise.success(function(data) {
@@ -95,40 +101,51 @@ var loadState = function(state) {
 
 var states = ['DE', 'MD', 'NJ', 'PA'];
 
+// Reposition the SVG to cover the features.
+var reset = function(wts) {
+	var bottomLeft = project(bounds[0]),
+		topRight = project(bounds[1]);
+
+	svg.attr("width", topRight[0] - bottomLeft[0])
+		.attr("height", bottomLeft[1] - topRight[1])
+		.style("margin-left", bottomLeft[0] + "px")
+		.style("margin-top", topRight[1] + "px");
+
+	g.attr("transform", "translate(" + -bottomLeft[0] + "," + -topRight[1] + ")");
+
+	D3feature.attr("d", path);
+
+	D3feature.append("title")
+		.text(function(d) {
+			var county_id = d.external_id;
+			return counties[county_id];
+		});
+
+	// TODO: need to adjust position of dots here, but this doesn't work!
+	// if(wts) {
+	// 	for(i = 0; i < wts.length; i++) {
+	// 		coords = project(centers[wts[i]['workTract']]['coordinates']);
+	// 		d3.select("#w" + wts[i]['workTract']).attr({
+	// 			"cx": coords[0],
+	// 			"cy": coords[1]
+	// 		});
+	// 	}
+	// }
+};
+
 // this function mostly taken from Mike Bostock's http://bost.ocks.org/mike/leaflet/ tutorial
 var overlay = function() {
 
 	d3.json('counties.json', function(collection) {
 
-		var bounds = d3.geo.bounds(collection);
+		bounds = d3.geo.bounds(collection);
 			
-		var feature = g.selectAll("path")
+		D3feature = g.selectAll("path")
 			.data(collection.features)
 				.enter().append("path");
 
 		map.on("viewreset", reset);
 		reset();
-
-		// Reposition the SVG to cover the features.
-	  	function reset() {
-	    	var bottomLeft = project(bounds[0]),
-	        	topRight = project(bounds[1]);
-
-	    	svg.attr("width", topRight[0] - bottomLeft[0])
-	        	.attr("height", bottomLeft[1] - topRight[1])
-	        	.style("margin-left", bottomLeft[0] + "px")
-	        	.style("margin-top", topRight[1] + "px");
-
-	    	g.attr("transform", "translate(" + -bottomLeft[0] + "," + -topRight[1] + ")");
-
-	    	feature.attr("d", path);
-
-	    	feature.append("title")
-	    		.text(function(d) {
-					var county_id = d.external_id;
-					return counties[county_id];
-	    		});
-	  	}
 	});
 };
 
@@ -142,6 +159,8 @@ var returnGeoID = function(json) {
 	console.log("returnGeoID" + json.objects[0].metadata.GEOID10);
 	userGeoID = json.objects[0].metadata.GEOID10;
 	userTractData = json.objects[0].simple_shape;
+	// this is a bit of a jQuery hack
+	$('circle').remove();
 	for (i = 0; i < states.length; i++) {
 		loadState(states[i]);
 	}
