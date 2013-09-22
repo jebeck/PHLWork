@@ -1,0 +1,80 @@
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" type="text/css">
+		<link rel="stylesheet" type="text/css" href="custom.css">
+		<!--[if lte IE 8]>
+			 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+		 <![endif]-->
+
+		<script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js" type="text/javascript"></script>
+		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8" type="text/javascript"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+		<title>PHL+ to Work</title>
+	</head>
+	<body>
+		<div id="map">
+		</div><script type="text/javascript">
+			// Latitude first
+			var map = L.map('map').setView([39.95, -75.17], 11);
+
+			L.tileLayer('http://tile.stamen.com/toner-lite/{z}/{x}/{y}.jpg', {
+				attribution: '<a id="home-link" target="_top" href="../">Map tiles</a> by <a target="_top" href="http://stamen.com">Stamen Design</a>, under <a target="_top" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>',
+				maxZoom: 18
+			}).addTo(map);
+
+			var censusTracts = new L.TileLayer.WMS("http://tigerweb.geo.census.gov/ArcGIS/services/tigerWMS/MapServer/WMSServer",
+			{
+			  layers: 'Census Tracts',
+			  format: 'image/png',
+			  transparent: true,
+			  attribution: "Things"
+			});
+
+			map.addLayer(censusTracts);
+
+			d3.json('PA-agged-excluded.json', function(error, json) {
+				var data = json;
+				overlay(data);
+			});
+
+			// this function mostly taken from Mike Bostock's http://bost.ocks.org/mike/leaflet/ tutorial
+			var overlay = function(data) {
+				var svg = d3.select(map.getPanes().overlayPane).append("svg"), 
+					g = svg.append("g").attr("class", "leaflet-zoom-hide");
+
+				d3.json('tract.json', function(collection) {
+
+					var bounds = d3.geo.bounds(collection),
+						path = d3.geo.path().projection(project);
+					var feature = g.selectAll("path")
+						.data(collection.features)
+  						.enter().append("path");
+
+					map.on("viewreset", reset);
+					reset();
+
+					// Reposition the SVG to cover the features.
+				  	function reset() {
+				    	var bottomLeft = project(bounds[0]),
+				        	topRight = project(bounds[1]);
+
+				    	svg.attr("width", topRight[0] - bottomLeft[0])
+				        	.attr("height", bottomLeft[1] - topRight[1])
+				        	.style("margin-left", bottomLeft[0] + "px")
+				        	.style("margin-top", topRight[1] + "px");
+
+				    	g.attr("transform", "translate(" + -bottomLeft[0] + "," + -topRight[1] + ")");
+
+				    	feature.attr("d", path);
+				  	}
+
+					function project(x) {
+						var point = map.latLngToLayerPoint(new L.LatLng(x[1], x[0]));
+						return [point.x, point.y];
+					}
+				});	
+			};
+		</script>
+	</body>
+</html>
