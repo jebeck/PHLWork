@@ -200,7 +200,7 @@ function chooseAddr(lat1, lng1, lat2, lng2, osm_type, centerLat, centerLng) {
 		var loc4 = new L.LatLng(lat2, lng1);
 
 		feature = L.polyline( [loc1, loc4, loc2, loc3, loc1], {color: 'red'}).addTo(map);
-		map.fitBounds(bounds);
+		//map.fitBounds(bounds);
 	}
 
 	console.log("Hello world", centerLat, centerLng);
