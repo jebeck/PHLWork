@@ -1,5 +1,5 @@
 // Latitude first
-var map = L.map('map').setView([39.95, -75.17], 11);
+var map = L.map('map').setView([39.95, -75.17], 8.5);
 
 L.tileLayer('http://tile.stamen.com/toner-lite/{z}/{x}/{y}.jpg', {
 	attribution: '<a id="home-link" target="_top" href="../">Map tiles</a> by <a target="_top" href="http://stamen.com">Stamen Design</a>, under <a target="_top" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>',
@@ -16,7 +16,7 @@ var overlay = function(data) {
 	var svg = d3.select(map.getPanes().overlayPane).append("svg"), 
 		g = svg.append("g").attr("class", "leaflet-zoom-hide");
 
-	d3.json('tract.json', function(collection) {
+	d3.json('counties.json', function(collection) {
 
 		var bounds = d3.geo.bounds(collection),
 			path = d3.geo.path().projection(project);
