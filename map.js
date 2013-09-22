@@ -27,18 +27,19 @@ var project = function(x) {
 
 var path = d3.geo.path().projection(project);
 
+var centers = [];
+
 var returnCentroid = function(json) {
-	console.log(json.centroid);
+	centers.push(json.centroid);
 };
 
-var getTractCentroid = function(tract, returnCentroid) {
+var getTractCentroid = function(tract) {
 	var base_url = "http://census.ire.org/geo/1.0/boundary-set/tracts/";
 
 	url = base_url + tract;
 	$.ajax(url, {
 		dataType: "jsonp",
-		jsonpCallback: 'returnCentroid',
-		success: returnCentroid
+		jsonpCallback: 'returnCentroid'
 	});
 };
 
@@ -48,16 +49,15 @@ d3.json('all-states-agged-excluded.json', function(error, json) {
 	var tract = ['42101000500'];
 	getTractCentroid(tract);
 
-
-	// d3.selectAll("circle")
-	// 	.data(data[tract])
-	// 	.enter()
-	// 	.append("circle")
-	// 	.attr({
-	// 		"cx": function(d) {
-				
-	// 		}
-	// 	})
+	d3.selectAll("circle")
+		.data(data[tract])
+		.enter()
+		.append("circle")
+		.attr({
+			"cx": function(d) {
+				console.log(d);
+			}
+		})
 });
 
 // this function mostly taken from Mike Bostock's http://bost.ocks.org/mike/leaflet/ tutorial
@@ -93,7 +93,6 @@ var overlay = function() {
 	    	feature.append("title")
 	    		.text(function(d) {
 					var county_id = d.external_id;
-					console.log(counties[county_id]);
 					return counties[county_id];
 	    		});
 	  	}
