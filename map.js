@@ -90,7 +90,7 @@ var loadState = function(state) {
 			var promise = getTractCentroid(wts[i].workTract);
 			promise.success(function(data) {
 				coords = project(data['centroid']['coordinates']);
-				d3.select("#w" + data['external_id']).attr({
+				d3.selectAll("#w" + data['external_id']).attr({
 					"cx": coords[0],
 					"cy": coords[1]
 				});
@@ -102,7 +102,7 @@ var loadState = function(state) {
 var states = ['DE', 'MD', 'NJ', 'PA'];
 
 // Reposition the SVG to cover the features.
-var reset = function(wts) {
+var reset = function() {
 	var bottomLeft = project(bounds[0]),
 		topRight = project(bounds[1]);
 
