@@ -14,7 +14,7 @@ def main():
 
 	loop_file(sys.argv[2], to_keep)
 
-	with open('PA.csv', 'wb') as f:
+	with open(sys.argv[3], 'wb') as f:
 		out_file = csv.writer(f)
 		out_file.writerow(header)
 		out_file.writerows(to_keep)
