@@ -1,7 +1,0 @@
-<variable name="B08101_001E" concept="B08101.  MEANS OF TRANSPORTATION TO WORK BY AGE">Total:</variable>
-<variable name="B08101_009E" concept="B08101.  MEANS OF TRANSPORTATION TO WORK BY AGE">Car, truck, or van - drove alone:</variable>
-<variable name="B08101_017E" concept="B08101.  MEANS OF TRANSPORTATION TO WORK BY AGE">Car, truck, or van - carpooled:</variable>
-<variable name="B08101_025E" concept="B08101.  MEANS OF TRANSPORTATION TO WORK BY AGE">Public transportation (excluding taxicab):</variable>
-<variable name="B08101_033E" concept="B08101.  MEANS OF TRANSPORTATION TO WORK BY AGE">Walked:</variable>
-<variable name="B08101_041E" concept="B08101.  MEANS OF TRANSPORTATION TO WORK BY AGE">Taxicab, motorcycle, bicycle, or other means:</variable>
-<variable name="B08101_049E" concept="B08101.  MEANS OF TRANSPORTATION TO WORK BY AGE">Worked at home:</variable>
