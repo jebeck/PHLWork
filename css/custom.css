@@ -1,19 +1,19 @@
-/*#map {
-	height: 640px;
-	width: 960px;
-	margin: 20px auto;
-}*/
-
 path {
 	fill: #00BEEB;
 	stroke: #FFF;
 	stroke-width: 1.5px;
 	opacity: .25;
 }
-/* above is Jana's code, below is my code */
+
+path.tract {
+  opacity: 1;
+}
+/* above is Jana's code, below is Andrew's code */
+
 body {
   margin: 0;
 }
+
 div#map {
   width: 100%;
   height: 100%;
@@ -28,9 +28,11 @@ div#search {
   height: auto;
   padding: 10px;
 }
+
 div#search input {
   width: 200px;
 }
+
 div#results {
   font-style: sans-serif;
   color: black;
