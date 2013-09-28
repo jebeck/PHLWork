@@ -1,0 +1,14 @@
+{
+    "centroid":[],
+    "modesOfTransport":{},
+    "workTracts":[
+        {
+            "industries":{
+                "allOther":0,
+                "goodsProducing":2,
+                "tradeTransUtil":0
+            },
+            "workTract":"10003014706"
+        }
+    ]
+}
