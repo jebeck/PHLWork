@@ -1,14 +1,65 @@
 {
-    "centroid":[],
-    "modesOfTransport":{},
-    "workTracts":[
-        {
-            "industries":{
-                "allOther":1,
-                "goodsProducing":0,
-                "tradeTransUtil":0
-            },
-            "workTract":"34007603303"
-        }
-    ]
+  "centroid_coordinates": [],
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              [
+                -75.001602,
+                39.92183
+              ],
+              [
+                -75.00551,
+                39.918226
+              ],
+              [
+                -75.008439,
+                39.920136
+              ],
+              [
+                -75.009208,
+                39.920911
+              ],
+              [
+                -75.012575,
+                39.921584
+              ],
+              [
+                -75.013632,
+                39.921394
+              ],
+              [
+                -75.017874,
+                39.922286
+              ],
+              [
+                -75.013542,
+                39.928334
+              ],
+              [
+                -74.997965,
+                39.925177
+              ],
+              [
+                -75.001602,
+                39.92183
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "industries": {
+        "allOther": 1,
+        "goodsProducing": 0,
+        "tradeTransUtil": 0
+      },
+      "type": "Feature",
+      "workTract": "34007603303"
+    }
+  ],
+  "modesOfTransport": {},
+  "type": "FeatureCollection"
 }
