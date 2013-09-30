@@ -1,13 +1,13 @@
 path {
+  stroke: #FFF;
+  stroke-width: 1.5px;
+}
+
+path.county {
 	fill: #00BEEB;
-	stroke: #FFF;
-	stroke-width: 1.5px;
 	opacity: .25;
 }
 
-path.tract {
-  opacity: 1;
-}
 /* above is Jana's code, below is Andrew's code */
 
 body {

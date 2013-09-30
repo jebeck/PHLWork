@@ -24,6 +24,10 @@ var svg = d3.select(map.getPanes().overlayPane).append("svg"),
 // from Bostock's tutorial (http://bost.ocks.org/mike/leaflet/): "The leaflet-zoom-hide class is needed so that the overlay is hidden during Leaflet’s zoom animation; alternatively, you could disable the animation using the zoomAnimation option when constructing the map."
 	g = svg.append("g").attr("class", "leaflet-zoom-hide");
 
+// add an SVG for D3 to use as a Leaflet overlayPane to display the work census tracts
+var svgTR = d3.select(map.getPanes().overlayPane).append("svg"),
+	gTR = svgTR.append("g").attr("class", "leaflet-zoom-hide");
+
 // add an SVG for D3 to use as a Leaflet overlayPane to display the user's home census tract
 var svgHT = d3.select(map.getPanes().overlayPane).append("svg"), 
 	gHT = svgHT.append("g").attr("class", "leaflet-zoom-hide");
@@ -35,6 +39,12 @@ var countyPaths;
 var homeTractBounds;
 
 var homeTractPath;
+
+var workTractBounds;
+
+var workTractPaths;
+
+var colorScale;
 
 d3.json('json/counties.json', function(collection) {
 
@@ -76,7 +86,8 @@ var resetCounties = function() {
 
 	g.attr("transform", "translate(" + -bottomLeft[0] + "," + -topRight[1] + ")");
 
-	countyPaths.attr("d", path);
+	countyPaths.attr("d", path)
+		.attr("class", "county");
 };
 
 var displayHomeTract = function() {
@@ -103,6 +114,30 @@ var displayHomeTract = function() {
 	resetHomeTract();
 };
 
+var displayWorkTracts = function() {
+
+	d3.json('json/' + userGeoID + '.json', function(json) {
+
+		workTractBounds = d3.geo.bounds(json);
+
+		workTractPaths = gTR.selectAll("path")
+			.data(json.features)
+			.enter()
+			.append("path")
+			.attr("class", "work-tract");
+
+		colorScale = d3.scale.linear()
+			.domain([0, d3.max(json.features, function(f) {
+				return f.industries.allOther + f.industries.goodsProducing + f.industries.tradeTransUtil;
+			})])
+			.range(['#DCDCDC', '#EE1867'])
+			.interpolate(d3.interpolateLab);
+
+		map.on("viewreset", resetWorkTracts);
+		resetWorkTracts();
+	});
+}
+
 var resetHomeTract = function() {
 	var bottomLeft = project(homeTractBounds[0]),
 		topRight = project(homeTractBounds[1]);
@@ -112,10 +147,33 @@ var resetHomeTract = function() {
 		.style("margin-left", bottomLeft[0] + "px")
 		.style("margin-top", topRight[1] + "px");
 
-	gHT.attr("transform", "translate(" + -bottomLeft[0] + "," + -topRight[1] + ")");
+	svgHT.attr("transform", "translate(" + -bottomLeft[0] + "," + -topRight[1] + ")");
 
 	homeTractPath.attr("d", path);
 };
+
+var resetWorkTracts = function() {
+	var bottomLeft = project(workTractBounds[0]), 
+		topRight = project(workTractBounds[1]);
+
+	svgTR.attr("width", topRight[0] - bottomLeft[0])
+		.attr("height", bottomLeft[1] - topRight[1])
+		.style("margin-left", bottomLeft[0] + "px")
+		.style("margin-top", topRight[1] + "px");
+
+	gTR.attr("transform", "translate(" + -bottomLeft[0] + "," + -topRight[1] + ")");
+
+	workTractPaths.attr("d", path)
+		.attr("fill", function(d) {
+			console.log(d);
+			if (d.workTract === userGeoID) {
+				return '#00BEEB';
+			}
+			else {
+				return colorScale(d.industries.allOther + d.industries.goodsProducing + d.industries.tradeTransUtil);
+			}		
+		});
+}
 
 // above is Jana's, below is mine 
 
@@ -129,9 +187,10 @@ var returnGeoID = function(json) {
 	json.objects[0]['geometry'] = json.objects[0]['simple_shape'];
 	delete json.objects[0]['simple_shape'];
 
-	console.log(json.objects[0]);
+	// console.log(json.objects[0]);
 	userGeoID = json.objects[0].metadata.GEOID10;
 	userTractData = json.objects;
+	displayWorkTracts();
 	displayHomeTract();
 }
 
