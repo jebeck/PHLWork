@@ -165,14 +165,24 @@ var resetWorkTracts = function() {
 
 	workTractPaths.attr("d", path)
 		.attr("fill", function(d) {
-			console.log(d);
 			if (d.workTract === userGeoID) {
 				return '#00BEEB';
 			}
 			else {
-				return colorScale(d.industries.allOther + d.industries.goodsProducing + d.industries.tradeTransUtil);
+				total = d.industries.allOther + d.industries.goodsProducing + d.industries.tradeTransUtil;
+				if (total === 1) {
+					return '#F16196';
+				}
+				else if ((total >= 2) && (total < 8)) {
+					return '#EE1867';
+				}
+				else if (total >= 8) {
+					console.log("I should be the dark color!")
+					return '#6E0B30';
+				}
 			}		
-		});
+		})
+		.attr("opacity", .9);
 }
 
 // above is Jana's, below is mine 
