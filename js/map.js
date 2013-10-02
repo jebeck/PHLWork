@@ -182,7 +182,12 @@ var resetWorkTracts = function() {
 				}
 			}		
 		})
-		.attr("opacity", .9);
+		.attr("opacity", .9)
+		.append("title")
+		.text(function(d) {
+			total = d.industries.allOther + d.industries.goodsProducing + d.industries.tradeTransUtil;
+			return "Total workers: " + total;
+		});
 }
 
 // above is Jana's, below is mine 
