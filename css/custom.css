@@ -1,11 +1,15 @@
 path {
   stroke: #FFF;
-  stroke-width: 1.5px;
+  stroke-width: .5px;
 }
 
 path.county {
 	fill: #00BEEB;
 	opacity: .2;
+}
+
+path.work-tract:hover {
+  opacity: .35;
 }
 
 /* above is Jana's code, below is Andrew's code */
