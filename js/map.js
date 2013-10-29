@@ -29,7 +29,7 @@ var svgTR = d3.select(map.getPanes().overlayPane).append("svg"),
 	gTR = svgTR.append("g").attr("class", "leaflet-zoom-hide");
 
 // add an SVG for D3 to use as a Leaflet overlayPane to display the user's home census tract
-var svgHT = d3.select(map.getPanes().overlayPane).append("svg"), 
+var svgHT = d3.select(map.getPanes().overlayPane).append("svg").attr("class", "home"), 
 	gHT = svgHT.append("g").attr("class", "leaflet-zoom-hide");
 
 var countyBounds;

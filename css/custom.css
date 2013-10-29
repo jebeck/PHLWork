@@ -8,6 +8,10 @@ path.county {
 	opacity: .2;
 }
 
+.home {
+  pointer-events: none;
+}
+
 path.work-tract:hover {
   opacity: .35;
 }
