@@ -177,7 +177,6 @@ var resetWorkTracts = function() {
 					return '#EE1867';
 				}
 				else if (total >= 8) {
-					console.log("I should be the dark color!")
 					return '#6E0B30';
 				}
 			}		
@@ -202,7 +201,6 @@ var returnGeoID = function(json) {
 	json.objects[0]['geometry'] = json.objects[0]['simple_shape'];
 	delete json.objects[0]['simple_shape'];
 
-	// console.log(json.objects[0]);
 	userGeoID = json.objects[0].metadata.GEOID10;
 	userTractData = json.objects;
 	displayWorkTracts();
@@ -210,7 +208,6 @@ var returnGeoID = function(json) {
 }
 
 var getCensusTract = function(Lat, Lng) {
-	// console.log("hello getCensusTract");
 	var base_url = "http://census.ire.org/geo/1.0/boundary/?sets=tracts&contains=";
 	url = base_url + Lat + ", " + Lng;
 	$.ajax(url, {
@@ -220,7 +217,6 @@ var getCensusTract = function(Lat, Lng) {
 }
 
 function chooseAddr(centerLat, centerLng) {
-	// console.log("Hello world", centerLat, centerLng);
 	return getCensusTract(centerLat, centerLng);
 }
 
@@ -234,7 +230,6 @@ function addr_search() {
             bb = val.boundingbox;
             geocodeLat = val.lat;
             geocodeLng = val.lon;
-            // console.log("Location BB:", bb);
             items.push("<li><a href='#' onclick='chooseAddr(" + bb[0] + ", " + bb[2] + ", " + bb[1] + ", " + bb[3]  + ", \"" + val.osm_type + "\", " + geocodeLat + ", " + geocodeLng + ");return false;'>" + val.display_name + '</a></li>');
         });
 
