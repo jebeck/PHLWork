@@ -1,0 +1,53 @@
+{
+  "centroid_coordinates": [],
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              [
+                -75.054287,
+                40.044448
+              ],
+              [
+                -75.049027,
+                40.041412
+              ],
+              [
+                -75.053584,
+                40.036574
+              ],
+              [
+                -75.051973,
+                40.035672
+              ],
+              [
+                -75.053701,
+                40.033844
+              ],
+              [
+                -75.061043,
+                40.037981
+              ],
+              [
+                -75.054287,
+                40.044448
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "industries": {
+        "allOther": 1,
+        "goodsProducing": 0,
+        "tradeTransUtil": 0
+      },
+      "type": "Feature",
+      "workTract": "42101031502"
+    }
+  ],
+  "modesOfTransport": {},
+  "type": "FeatureCollection"
+}

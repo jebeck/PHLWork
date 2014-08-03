@@ -1,0 +1,99 @@
+{
+  "centroid_coordinates": [],
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              [
+                -75.821248,
+                39.821508
+              ],
+              [
+                -75.820486,
+                39.816573
+              ],
+              [
+                -75.820413,
+                39.815213
+              ],
+              [
+                -75.835038,
+                39.813938
+              ],
+              [
+                -75.835503,
+                39.817848
+              ],
+              [
+                -75.835682,
+                39.82435
+              ],
+              [
+                -75.836057,
+                39.8262
+              ],
+              [
+                -75.822162,
+                39.827465
+              ],
+              [
+                -75.821248,
+                39.821508
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "industries": {
+        "allOther": 1,
+        "goodsProducing": 0,
+        "tradeTransUtil": 0
+      },
+      "type": "Feature",
+      "workTract": "42029306300"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              [
+                -75.164845,
+                39.946999
+              ],
+              [
+                -75.17118,
+                39.947784
+              ],
+              [
+                -75.170667,
+                39.950131
+              ],
+              [
+                -75.164338,
+                39.949346
+              ],
+              [
+                -75.164845,
+                39.946999
+              ]
+            ]
+          ]
+        ],
+        "type": "MultiPolygon"
+      },
+      "industries": {
+        "allOther": 1,
+        "goodsProducing": 0,
+        "tradeTransUtil": 0
+      },
+      "type": "Feature",
+      "workTract": "42101000804"
+    }
+  ],
+  "modesOfTransport": {},
+  "type": "FeatureCollection"
+}
